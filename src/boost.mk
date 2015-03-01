@@ -39,7 +39,7 @@ define $(PKG)_BUILD
         address-model=$(BITS) \
         architecture=x86 \
         binary-format=pe \
-        link=$(if $(BUILD_STATIC),static,shared) \
+        link=shared \
         target-os=windows \
         threadapi=win32 \
         threading=multi \

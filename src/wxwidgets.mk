@@ -19,7 +19,8 @@ endef
 define $(PKG)_CONFIGURE_OPTS
         --host='$(TARGET)' \
         --build="`config.guess`" \
-        --disable-shared \
+        --enable-shared \
+        --enable-monolithic=no \
         --prefix='$(PREFIX)/$(TARGET)' \
         --enable-gui \
         --disable-stl \
@@ -50,9 +51,7 @@ define $(PKG)_CONFIGURE_OPTS
         --without-hildon \
         --without-dmalloc \
         --without-odbc \
-        LIBS=" `'$(TARGET)-pkg-config' --libs-only-l libtiff-4`" \
-        CXXFLAGS='-std=gnu++11' \
-        CXXCPP='$(TARGET)-g++ -E -std=gnu++11'
+        LIBS=" `'$(TARGET)-pkg-config' --libs-only-l libtiff-4`"
 endef
 
 define $(PKG)_BUILD
@@ -77,4 +76,4 @@ define $(PKG)_BUILD
         `'$(TARGET)-wx-config' --cflags --libs`
 endef
 
-$(PKG)_BUILD_SHARED =
+#$(PKG)_BUILD_SHARED =

@@ -1,0 +1,32 @@
+From ec43c8a88a554da7f16b19e25f936686e0e4fc82 Mon Sep 17 00:00:00 2001
+From: fiesh <fiesh@fiesh.homeip.net>
+Date: Thu, 5 Feb 2015 14:23:29 +0100
+Subject: [PATCH] work around GCC bug, see
+ https://svn.boost.org/trac/boost/ticket/10531
+
+ include/boost/polygon/point_data.hpp | 8 ++++++++
+ 1 file changed, 8 insertions(+)
+
+diff --git include/boost/polygon/point_data.hpp b/include/boost/polygon/point_data.hpp
+index 23c23ed..8224657 100644
+--- include/boost/polygon/point_data.hpp
++++ include/boost/polygon/point_data.hpp
+@@ -45,10 +45,18 @@ class point_data {
+     return *this;
+   }
+ 
++#ifdef __GNUC__
++  // "explicit" to work around https://gcc.gnu.org/bugzilla/show_bug.cgi?id=63356
++  template <typename PointType>
++  explicit point_data(const PointType& that) {
++    *this = that;
++  }
++#else // __GNUC__
+   template <typename PointType>
+   point_data(const PointType& that) {
+     *this = that;
+   }
++#endif // __GNUC__
+ 
+   template <typename PointType>
+   point_data& operator=(const PointType& that) {
